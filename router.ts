@@ -1,5 +1,5 @@
 import { getUserProducts,getOneProduct,createProduct,updateProduct,deleteproduct} from './Handlers/product';
-import {getAllUpdates,getSpecificUpdate} from './Handlers/update'
+import {createUpdate, getAllUpdates,getSpecificUpdate} from './Handlers/update'
 import express from 'express'
 import { body ,oneOf,validationResult } from 'express-validator';
 import { handleErrors } from './modules/middleware';
@@ -20,9 +20,15 @@ router.get("/product/:id",getUserProducts);
   
   router.get("/update/:id", getSpecificUpdate);
   
-  router.post("/update",createProduct);
+  router.post("/update",[body('title').exists().isString(),
+  body('body').exists().isString(),body('productId').exists().isString(),
+  body('asset').exists().isString()
+  ],createUpdate);
   
-  router.put("/update/:id", updateProduct);
+  router.put("/update/:id",[body('title').optional(),
+  body('body').optional(),
+  body('status').isIn(['IN_PROGRESS','SHIPPED','DEPRECATED']).optional(),
+  body('version').optional(),],updateProduct);
   
   router.delete("/update/:id", deleteproduct);
   

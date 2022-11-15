@@ -35,7 +35,7 @@ export const createProduct=async(req,res)=>{
             belongsToId: req.user.id
         }
     })
-    res.json({data:product})
+    res.json({product})
 }
 
 //Update product
